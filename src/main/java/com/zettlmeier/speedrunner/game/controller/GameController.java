@@ -18,6 +18,7 @@ import java.util.Objects;
 @Controller
 public class GameController {
     private static final String GET_RESOURCE_PATH = "/game";
+    private static final String GET_SPECIFIC_GAME_RESOURCE_PATH = GET_RESOURCE_PATH + "/{title}";
     private static final String POST_RESOURCE_PATH = GET_RESOURCE_PATH;
     private static final String PUT_RESOURCE_PATH = GET_RESOURCE_PATH + "/{title}";
 
@@ -34,6 +35,15 @@ public class GameController {
     @GetMapping(value = GET_RESOURCE_PATH, produces = { MediaType.APPLICATION_JSON_VALUE })
     ResponseEntity<Collection<Game>> getGames() {
         return this.restResponseEntityBuilder.buildGETResponse(this.gameService.getGames());
+    }
+
+    @GetMapping(value = GET_SPECIFIC_GAME_RESOURCE_PATH, produces = { MediaType.APPLICATION_JSON_VALUE })
+    ResponseEntity<Game> getGame(@PathVariable String title) {
+        try {
+            return this.restResponseEntityBuilder.buildGETResponse(this.gameService.getGame(title));
+        } catch (NoSuchElementException ex) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PostMapping(value = POST_RESOURCE_PATH, produces = { MediaType.APPLICATION_JSON_VALUE })

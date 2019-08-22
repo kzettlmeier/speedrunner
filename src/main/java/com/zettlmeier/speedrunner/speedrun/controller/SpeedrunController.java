@@ -47,6 +47,11 @@ public class SpeedrunController {
             return this.getSpeedrunsByGameAndCategory(gameTitle, category);
         }
 
+        // Check if gameTitle is given
+        if (!StringUtils.isNullOrEmpty(gameTitle)) {
+            return this.getSpeedrunsByGame(gameTitle);
+        }
+
         // Check if userName is given
         if (!StringUtils.isNullOrEmpty(userName)) {
             return this.getSpeedrunsByUser(userName);
@@ -69,6 +74,17 @@ public class SpeedrunController {
             return this.restResponseEntityBuilder.buildPOSTResponse(createdSpeedrun, createdSpeedrun.getId().toString());
         } catch (NoSuchElementException ex) {
             return ResponseEntity.badRequest().build();
+        }
+    }
+
+    private ResponseEntity<Collection<Speedrun>> getSpeedrunsByGame(String gameTitle) {
+        try {
+            // First get the game
+            var game = this.gameService.getGame(gameTitle);
+
+            return this.restResponseEntityBuilder.buildGETResponse(this.speedrunService.getSpeedruns(game));
+        } catch (NoSuchElementException ex) {
+            return ResponseEntity.notFound().build();
         }
     }
 
