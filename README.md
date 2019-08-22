@@ -1,6 +1,20 @@
 # speedrunner
 
-## Requirements
+## How to Run
+In order to run the application you must have the Java 11 JDK installed and have you JAVA_HOME environment variable set 
+to the home directory of Java (example: C:\Program Files\Java\jdk-11.0.2).
+
+If you want to run unit tests you can run the following from the same directory as the pom.xml:
+```bash
+mvnw clean install -U
+```
+
+If you want to run the application you can run the following from the same directory as the pom.xml:
+```bash
+mvnw spring-boot:run
+```
+
+## Requirements of API
 1. Add a​game​title
     - You can add a game title by making the following POST request to: http://localhost:8080/game with the below JSON 
     body, replacing {GAME_TITLE} & {CATEGORY_N} with their respective values. If a category doesn't yet exist it will 
