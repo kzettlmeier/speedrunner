@@ -11,7 +11,7 @@ import java.util.UUID;
         fieldVisibility = JsonAutoDetect.Visibility.ANY
 )
 @MappedSuperclass
-public class AbstractDomainIdentifier {
+public abstract class AbstractDomainIdentifier {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", columnDefinition = "UUID")
@@ -31,7 +31,7 @@ public class AbstractDomainIdentifier {
             return false;
         }
 
-        AbstractDomainObject that = (AbstractDomainObject)o;
+        AbstractDomainIdentifier that = (AbstractDomainIdentifier)o;
 
         return new EqualsBuilder()
                 .append(id, that.id)

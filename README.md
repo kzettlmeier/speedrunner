@@ -15,7 +15,7 @@ mvnw spring-boot:run
 ```
 
 ## Requirements of API
-1. Add a​game​title
+1. Add a game title
     - You can add a game title by making the following POST request to: http://localhost:8080/game with the below JSON 
     body, replacing {GAME_TITLE} & {CATEGORY_N} with their respective values. If a category doesn't yet exist it will 
     create the category along with the game.

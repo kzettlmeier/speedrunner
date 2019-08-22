@@ -1,6 +1,5 @@
 package com.zettlmeier.speedrunner.speedrun.controller;
 
-import com.zettlmeier.speedrunner.category.controller.CategoryController;
 import com.zettlmeier.speedrunner.category.model.Category;
 import com.zettlmeier.speedrunner.entities.service.RestResponseEntityBuilder;
 import com.zettlmeier.speedrunner.game.service.GameService;
