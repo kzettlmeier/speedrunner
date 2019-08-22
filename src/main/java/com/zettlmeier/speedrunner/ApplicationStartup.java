@@ -79,66 +79,17 @@ public class ApplicationStartup {
                     cellCount++;
                 }
                 // Check if category exists
-                Category categoryObj;
-                try {
-                    categoryObj = this.categoryService.getCategory(category);
-                } catch (NoSuchElementException ex) {
-                    // Create the category
-                    categoryObj = new Category();
-                    categoryObj.setName(category);
-                    this.categoryService.createCategory(categoryObj);
-                }
+                Category categoryObj = this.checkAndCreateCategoryIfNeeded(category);
 
                 // Check if game exists
-                Game gameObj;
-                List<GameCategory> gameCategories;
-                try {
-                    gameObj = this.gameService.getGame(game);
-                    // Check if category already in game object, if not add it
-                    gameCategories = gameObj.getGameCategories();
-                    boolean foundCategory = false;
-                    for (GameCategory gameCategory : gameCategories) {
-                        Category gameCat = gameCategory.getCategory();
-                        if (gameCat != null && gameCat.getName().equals(category)) {
-                            foundCategory = true;
-                            break;
-                        }
-                    }
-                    if (!foundCategory) {
-                        // Add the category
-                        List<GameCategory> newList = new ArrayList<>();
-                        newList.addAll(gameCategories);
-                        newList.add(new GameCategory(categoryObj));
-                        gameObj.setGameCategories(newList);
-                        this.gameService.updateGame(gameObj.getTitle(), gameObj);
-                    }
-                } catch (NoSuchElementException ex) {
-                    // Create the game
-                    gameObj = new Game();
-                    gameObj.setTitle(game);
-                    gameCategories = new ArrayList<>();
-                    gameCategories.add(new GameCategory(categoryObj));
-                    gameObj.setGameCategories(gameCategories);
-                    this.gameService.createGame(gameObj);
-                }
+                Game gameObj = this.checkAndCreateGameIfNeeded(game, category, categoryObj);
 
                 // Check if user exists
-                User userObj;
-                try {
-                    userObj = this.userService.getUser(user);
-                } catch (NoSuchElementException ex) {
-                    // Add in user
-                    userObj = new User();
-                    userObj.setUserName(user);
-                    this.userService.createUser(userObj);
-                }
+                User userObj = this.checkAndCreateUserIfNeeded(user);
 
                 // Create the speedrun
-                Speedrun speedrun = new Speedrun();
-                speedrun.setGame(gameObj);
-                speedrun.setUser(userObj);
-                speedrun.setDuration(duration);
-                this.speedrunService.createSpeedrun(speedrun);
+                this.createSpeedrun(gameObj, userObj, duration);
+
                 rowCount++;
             }
         }
@@ -147,5 +98,77 @@ public class ApplicationStartup {
         }
 
         fis.close();
+    }
+
+    private Category checkAndCreateCategoryIfNeeded(String category) {
+        Category categoryObj;
+        try {
+            categoryObj = this.categoryService.getCategory(category);
+        } catch (NoSuchElementException ex) {
+            // Create the category
+            categoryObj = new Category();
+            categoryObj.setName(category);
+            this.categoryService.createCategory(categoryObj);
+        }
+
+        return categoryObj;
+    }
+
+    private Game checkAndCreateGameIfNeeded(String game, String category, Category categoryObj) {
+        Game gameObj;
+        List<GameCategory> gameCategories;
+        try {
+            gameObj = this.gameService.getGame(game);
+            // Check if category already in game object, if not add it
+            gameCategories = gameObj.getGameCategories();
+            boolean foundCategory = false;
+            for (GameCategory gameCategory : gameCategories) {
+                Category gameCat = gameCategory.getCategory();
+                if (gameCat != null && gameCat.getName().equals(category)) {
+                    foundCategory = true;
+                    break;
+                }
+            }
+            if (!foundCategory) {
+                // Add the category
+                List<GameCategory> newList = new ArrayList<>();
+                newList.addAll(gameCategories);
+                newList.add(new GameCategory(categoryObj));
+                gameObj.setGameCategories(newList);
+                this.gameService.updateGame(gameObj.getTitle(), gameObj);
+            }
+        } catch (NoSuchElementException ex) {
+            // Create the game
+            gameObj = new Game();
+            gameObj.setTitle(game);
+            gameCategories = new ArrayList<>();
+            gameCategories.add(new GameCategory(categoryObj));
+            gameObj.setGameCategories(gameCategories);
+            this.gameService.createGame(gameObj);
+        }
+
+        return gameObj;
+    }
+
+    private User checkAndCreateUserIfNeeded(String user) {
+        User userObj;
+        try {
+            userObj = this.userService.getUser(user);
+        } catch (NoSuchElementException ex) {
+            // Add in user
+            userObj = new User();
+            userObj.setUserName(user);
+            this.userService.createUser(userObj);
+        }
+
+        return userObj;
+    }
+
+    private void createSpeedrun(Game game, User user, long duration) {
+        Speedrun speedrun = new Speedrun();
+        speedrun.setGame(game);
+        speedrun.setUser(user);
+        speedrun.setDuration(duration);
+        this.speedrunService.createSpeedrun(speedrun);
     }
 }
