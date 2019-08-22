@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.NoSuchElementException;
 import java.util.Objects;
-import java.util.Optional;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -19,8 +19,13 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Optional<Category> getCategory(String name) {
-        return this.categoryRepository.findByNameEqualsAndInactiveDateIsNull(name);
+    public Category getCategory(String name) {
+        var optionalCategory = this.categoryRepository.findByNameEqualsAndInactiveDateIsNull(name);
+        if (optionalCategory.isEmpty()) {
+            throw new NoSuchElementException("Category not found with name: " + name);
+        }
+
+        return optionalCategory.get();
     }
 
     @Override

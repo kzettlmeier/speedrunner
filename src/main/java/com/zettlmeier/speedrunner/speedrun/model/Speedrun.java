@@ -21,7 +21,7 @@ public class Speedrun extends AbstractDomainObject {
 
     // Duration in seconds
     @Column(name = "duration", nullable = false)
-    private int duration;
+    private long duration;
 
     public Game getGame() { return this.game; }
 
@@ -31,9 +31,9 @@ public class Speedrun extends AbstractDomainObject {
 
     public void setUser(User user) { this.user = user; }
 
-    public float getDuration() { return this.duration; }
+    public long getDuration() { return this.duration; }
 
-    public void setDuration(int duration) { this.duration = duration; }
+    public void setDuration(long duration) { this.duration = duration; }
 
     @Override
     public boolean equals(Object o) {

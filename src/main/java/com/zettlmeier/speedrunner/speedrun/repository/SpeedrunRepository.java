@@ -1,6 +1,5 @@
 package com.zettlmeier.speedrunner.speedrun.repository;
 
-import com.zettlmeier.speedrunner.category.model.Category;
 import com.zettlmeier.speedrunner.game.model.Game;
 import com.zettlmeier.speedrunner.speedrun.model.Speedrun;
 import com.zettlmeier.speedrunner.user.model.User;

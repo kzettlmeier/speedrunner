@@ -1,11 +1,9 @@
 package com.zettlmeier.speedrunner.speedrun.controller;
 
 import com.zettlmeier.speedrunner.entities.service.RestResponseEntityBuilder;
-import com.zettlmeier.speedrunner.game.model.Game;
 import com.zettlmeier.speedrunner.game.service.GameService;
 import com.zettlmeier.speedrunner.speedrun.model.Speedrun;
 import com.zettlmeier.speedrunner.speedrun.service.SpeedrunService;
-import com.zettlmeier.speedrunner.user.model.User;
 import com.zettlmeier.speedrunner.user.service.UserService;
 import org.h2.util.StringUtils;
 import org.springframework.http.MediaType;

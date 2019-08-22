@@ -24,7 +24,7 @@ public class Game extends AbstractDomainObject {
 
     public String getTitle() { return title; }
 
-    public void setTitle() { this.title = title; }
+    public void setTitle(String title) { this.title = title; }
 
     public List<GameCategory> getGameCategories() {
         return Collections.unmodifiableList(this.gameCategories);

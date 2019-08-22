@@ -66,12 +66,13 @@ public class GameController {
         var categories = game.getGameCategories();
         for (var category : categories) {
             var categoryObj = category.getCategory();
-            var existingCategory = this.categoryService.getCategory(categoryObj.getName());
-            if (existingCategory.isEmpty()) {
+            try {
+                var existingCategory = this.categoryService.getCategory(categoryObj.getName());
+                newCategories.add(new GameCategory(existingCategory));
+            } catch (NoSuchElementException ex) {
                 newCategories.add(new GameCategory(this.categoryService.createCategory(categoryObj)));
-            } else {
-                newCategories.add(new GameCategory(existingCategory.get()));
             }
+
         }
         game.setGameCategories(newCategories);
     }
