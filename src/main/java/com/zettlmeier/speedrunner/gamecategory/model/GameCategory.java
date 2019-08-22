@@ -1,6 +1,5 @@
 package com.zettlmeier.speedrunner.gamecategory.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.zettlmeier.speedrunner.category.model.Category;
 import com.zettlmeier.speedrunner.entities.model.AbstractDomainIdentifier;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -13,7 +12,7 @@ import javax.persistence.ManyToOne;
 @Entity
 public class GameCategory extends AbstractDomainIdentifier {
     @ManyToOne
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "category_id", referencedColumnName = "id")
     private Category category;
 
     public GameCategory() { }

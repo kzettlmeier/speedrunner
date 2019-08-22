@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import java.util.Collection;
 import java.util.NoSuchElementException;
 import java.util.Objects;
-import java.util.UUID;
 
 @Service
 public class GameServiceImpl implements GameService {
@@ -15,6 +14,16 @@ public class GameServiceImpl implements GameService {
 
     public GameServiceImpl(GameRepository gameRepository) {
         this.gameRepository = Objects.requireNonNull(gameRepository, "Game Repository is required");
+    }
+
+    @Override
+    public Game getGame(String gameTitle) {
+        var optionalGame = this.gameRepository.findByTitleAndInactiveDateIsNull(gameTitle);
+        if (optionalGame.isEmpty()) {
+            throw new NoSuchElementException("No game found with title: " + gameTitle);
+        }
+
+        return optionalGame.get();
     }
 
     @Override

@@ -1,6 +1,5 @@
 package com.zettlmeier.speedrunner.game.controller;
 
-import com.zettlmeier.speedrunner.category.model.Category;
 import com.zettlmeier.speedrunner.category.service.CategoryService;
 import com.zettlmeier.speedrunner.entities.service.RestResponseEntityBuilder;
 import com.zettlmeier.speedrunner.game.model.Game;
@@ -11,7 +10,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.NoSuchElementException;
+import java.util.Objects;
 
 @Controller
 public class GameController {
