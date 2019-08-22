@@ -1,5 +1,6 @@
 package com.zettlmeier.speedrunner.speedrun.service;
 
+import com.zettlmeier.speedrunner.category.model.Category;
 import com.zettlmeier.speedrunner.game.model.Game;
 import com.zettlmeier.speedrunner.speedrun.model.Speedrun;
 import com.zettlmeier.speedrunner.speedrun.repository.SpeedrunRepository;
@@ -43,6 +44,26 @@ public class SpeedrunServiceImpl implements SpeedrunService {
         var speedruns = this.speedrunRepository.findAllByGameEqualsAndUserEqualsAndInactiveDateIsNullOrderByDurationAsc(game, user);
         if (speedruns.size() == 0) {
             throw new NoSuchElementException("No speedruns found for game: " + game.getTitle() + " and user: " + user.getUserName());
+        }
+
+        return speedruns;
+    }
+
+    @Override
+    public Collection<Speedrun> getSpeedruns(Game game, Category category) {
+        var speedruns = this.speedrunRepository.findAllByGameEqualsAndCategoryEqualsAndInactiveDateIsNullOrderByDurationAsc(game, category);
+        if (speedruns.size() == 0) {
+            throw new NoSuchElementException("No speedruns found for game: " + game.getTitle() + " and category: " + category.getName());
+        }
+
+        return speedruns;
+    }
+
+    @Override
+    public Collection<Speedrun> getSpeedruns(Game game, Category category, User user) {
+        var speedruns = this.speedrunRepository.findAllByGameEqualsAndCategoryEqualsAndUserEqualsAndInactiveDateIsNullOrderByDurationAsc(game, category, user);
+        if (speedruns.size() == 0) {
+            throw new NoSuchElementException("No speedruns found for game: " + game.getTitle() + " and category: " + category.getName() + " and user: " + user.getUserName());
         }
 
         return speedruns;

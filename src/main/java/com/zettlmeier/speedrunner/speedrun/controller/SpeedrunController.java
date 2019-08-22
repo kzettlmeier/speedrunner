@@ -1,5 +1,7 @@
 package com.zettlmeier.speedrunner.speedrun.controller;
 
+import com.zettlmeier.speedrunner.category.controller.CategoryController;
+import com.zettlmeier.speedrunner.category.model.Category;
 import com.zettlmeier.speedrunner.entities.service.RestResponseEntityBuilder;
 import com.zettlmeier.speedrunner.game.service.GameService;
 import com.zettlmeier.speedrunner.speedrun.model.Speedrun;
@@ -97,9 +99,11 @@ public class SpeedrunController {
             // Validate that the game has the specified category
             var foundCategory = false;
             var categories = game.getGameCategories();
+            var categoryObj = new Category();
             for (var gameCategory : categories) {
                 var gameCategoryObj = gameCategory.getCategory();
                 if (category != null && gameCategoryObj.getName().equals(category)) {
+                    categoryObj = gameCategoryObj;
                     foundCategory = true;
                     break;
                 }
@@ -108,7 +112,7 @@ public class SpeedrunController {
             if (foundCategory) {
                 // Find if user exists
                 var user = this.userService.getUser(userName);
-                return this.restResponseEntityBuilder.buildGETResponse(this.speedrunService.getSpeedruns(game, user));
+                return this.restResponseEntityBuilder.buildGETResponse(this.speedrunService.getSpeedruns(game, categoryObj, user));
             }
 
             return this.restResponseEntityBuilder.buildGETResponse(speedruns);
@@ -128,7 +132,7 @@ public class SpeedrunController {
             for (var gameCategory : categories) {
                 var gameCategoryObj = gameCategory.getCategory();
                 if (category != null && gameCategoryObj.getName().equals(category)) {
-                    speedruns = this.speedrunService.getSpeedruns(game);
+                    speedruns = this.speedrunService.getSpeedruns(game, gameCategoryObj);
                     break;
                 }
             }

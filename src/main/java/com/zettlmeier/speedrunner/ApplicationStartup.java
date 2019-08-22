@@ -88,7 +88,7 @@ public class ApplicationStartup {
                 User userObj = this.checkAndCreateUserIfNeeded(user);
 
                 // Create the speedrun
-                this.createSpeedrun(gameObj, userObj, duration);
+                this.createSpeedrun(gameObj, categoryObj, userObj, duration);
 
                 rowCount++;
             }
@@ -164,9 +164,10 @@ public class ApplicationStartup {
         return userObj;
     }
 
-    private void createSpeedrun(Game game, User user, long duration) {
+    private void createSpeedrun(Game game, Category category, User user, long duration) {
         Speedrun speedrun = new Speedrun();
         speedrun.setGame(game);
+        speedrun.setCategory(category);
         speedrun.setUser(user);
         speedrun.setDuration(duration);
         this.speedrunService.createSpeedrun(speedrun);

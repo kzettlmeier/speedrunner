@@ -72,6 +72,10 @@
             "id": "{USER_ID}",
             "userName": "{USER_NAME}"
         },
+        "category": {
+            "id": "{CATEGORY_ID_N}",
+            "name": "{CATEGORY_N}"
+        },
         "duration": {DURATION_IN_SECONDS}
     }
     ```
@@ -81,7 +85,7 @@
     duration order
 7. Retrieve top speedrun times for each category (category, player name, duration) for a specified game title
     - You can retrieve the top speedrun times for a specific game by making a GET request to
-    http://localhost:8080/speedrun?gameTitle={USER_NAME}.  The results will be sorted in ASCENDING duration order.
+    http://localhost:8080/speedrun?gameTitle={GAME_TITLE}.  The results will be sorted in ASCENDING duration order.
 8. Retrieve speedrun times (game title, category, duration) for a specified player name
     - You can retrieve the top speedrun times for a specific user by making a GET request to
-    http://localhost:8080/speedrun?gameTitle={GAME_TITLE}.  The results will be sorted in ASCENDING duration order.
+    http://localhost:8080/speedrun?userName={userName}.  The results will be sorted in ASCENDING duration order.
